@@ -16,4 +16,4 @@ An easy way to set up a [kareha](http://wakaba.c3.cx/s/web/wakaba_kareha) board
  
  - Run `docker run --rm -t -v <REAL DATA FOLDER PATH HERE>:/var/www/localhost/htdocs/data -p 80:80 kareha`
  
- - That's it! Your kareha board is now running
+ - That's it! Your kareha board is now running. Visit `localhost/kareha.pl` to do the first-time setup.
