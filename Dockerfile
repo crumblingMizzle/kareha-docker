@@ -10,10 +10,9 @@ RUN apk add --update --no-cache perl perl-app-cpanminus wget make gcc perl-dev l
 COPY etc/lighttpd/* /etc/lighttpd/
 COPY kareha/* /var/www/localhost/htdocs/
 
-RUN mkdir /var/www/localhost/htdocs/res
 RUN chown -R lighttpd /var/www/localhost/htdocs/
 RUN chgrp -R lighttpd /var/www/localhost/htdocs/
 
-VOLUME /var/www/localhost/htdocs/config
+VOLUME /var/www/localhost/htdocs/data/
 
 CMD ["start.sh"]
