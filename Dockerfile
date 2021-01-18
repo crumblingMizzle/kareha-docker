@@ -1,19 +1,16 @@
 # Dockerfile for kahera
 
-FROM sebp/lighttpd
+FROM nginx:stable-alpine-perl
 
-RUN apk add --update --no-cache perl perl-app-cpanminus wget make gcc perl-dev libc-dev imagemagick \
-  && rm -rf /var/cache/apk/* && cpanm CGI
+RUN apk add --update --no-cache fcgi fcgiwrap perl-fcgi perl-cgi nano openrc perl perl-app-cpanminus wget make gcc perl-dev libc-dev imagemagick \
+  && rm -rf /var/cache/apk/*
 
-COPY etc/lighttpd/* /etc/lighttpd/
-COPY start.sh /usr/local/bin/
+COPY etc/init.d/* /etc/init.d/
+COPY usr/local/bin/* /usr/local/bin/
+COPY data/nginx.conf /etc/nginx/nginx.conf
 
-ENV HOSTNAME="localhost"
-WORKDIR /var/www/$HOSTNAME/htdocs
-COPY --chown=lighttpd:lighttpd kareha/* ./
-RUN mkdir data
-RUN chown -R lighttpd:lighttpd /var/www/$HOSTNAME/htdocs
-
+ARG HOSTNAME="localhost"
+COPY kareha/* /var/www/$HOSTNAME/htdocs/
 VOLUME /var/www/$HOSTNAME/htdocs/data/
 
 CMD ["sh", "-c", "start.sh ${HOSTNAME}"]
