@@ -8,9 +8,12 @@ RUN apk add --update --no-cache perl perl-app-cpanminus wget make gcc perl-dev l
 COPY etc/lighttpd/* /etc/lighttpd/
 COPY start.sh /usr/local/bin/
 
-WORKDIR /var/www/localhost/htdocs
+ENV HOSTNAME="localhost"
+WORKDIR /var/www/$HOSTNAME/htdocs
 COPY --chown=lighttpd:lighttpd kareha/* ./
 RUN mkdir data
-RUN chown -R lighttpd:lighttpd /var/www/localhost/htdocs
+RUN chown -R lighttpd:lighttpd /var/www/$HOSTNAME/htdocs
 
-VOLUME /var/www/localhost/htdocs/data/
+VOLUME /var/www/$HOSTNAME/htdocs/data/
+
+CMD ["sh", "-c", "start.sh ${HOSTNAME}"]
